@@ -1,5 +1,5 @@
 import Container from "../components/ui/Container";
-import TodoContainer from "../components/ui/todo/TodoContainer";
+import TodoContainer from "../components/todo/TodoContainer";
 
 const Todo = () => {
   return (
