@@ -1,16 +1,49 @@
 import { Button } from "../ui/button";
 import { editIcon, trashIcon } from "../../utils/svgIcons";
+import { useAppDispatch } from "../../redux/hook";
+import { removeTodo, toggleComplete } from "../../redux/features/todoSlice";
+import { FormEvent } from "react";
 
-const TodoCard = () => {
+type TTodoCardProps = {
+  id: string;
+  title: string;
+  description: string;
+  isCompleted?: boolean;
+};
+
+const TodoCard = ({ id, title, description, isCompleted }: TTodoCardProps) => {
+  const dispatch = useAppDispatch();
+
+  const toggleState = () => {
+    dispatch(toggleComplete(id));
+  };
+
   return (
     <div className="flex justify-between items-center bg-white p-4 border rounded">
-      <input type="checkbox" name="" id="" />
-      <p className="font-semibold">Todo Title</p>
-      <p>Time</p>
-      <p>Description</p>
+      <input
+        onChange={toggleState}
+        type="checkbox"
+        name="completed"
+        id="completed"
+      />
+      <p className="font-semibold">{title}</p>
+      {/* <p>Time</p> */}
+      <div>
+        {isCompleted ? (
+          <p className="text-green-500">Done</p>
+        ) : (
+          <p className="text-red-500">Pending</p>
+        )}
+      </div>
+      <p>{description}</p>
       <div className="space-x-5">
         <Button className="bg-[#5C53FE] ">{editIcon}</Button>
-        <Button className="bg-[#DC02C3]">{trashIcon}</Button>
+        <Button
+          onClick={() => dispatch(removeTodo(id))}
+          className="bg-[#DC02C3]"
+        >
+          {trashIcon}
+        </Button>
       </div>
     </div>
   );
