@@ -2,7 +2,6 @@ import { Button } from "../ui/button";
 import { editIcon, trashIcon } from "../../utils/svgIcons";
 import { useAppDispatch } from "../../redux/hook";
 import { removeTodo, toggleComplete } from "../../redux/features/todoSlice";
-import { FormEvent } from "react";
 
 type TTodoCardProps = {
   id: string;

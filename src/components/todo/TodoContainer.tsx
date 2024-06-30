@@ -1,3 +1,4 @@
+import { useGetTodosQuery } from "../../redux/api/api";
 import { TTodo } from "../../redux/features/todoSlice";
 import { useAppSelector } from "../../redux/hook";
 import AddTodoModal from "./AddTodoModal";
@@ -6,6 +7,8 @@ import TodoFilter from "./TodoFilter";
 
 const TodoContainer = () => {
   const { todos } = useAppSelector((state) => state.todos);
+
+  const { data } = useGetTodosQuery(undefined);
 
   return (
     <div>
