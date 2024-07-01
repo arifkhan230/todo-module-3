@@ -1,5 +1,5 @@
 import React from "react";
-import { UseGetTodosQuery, useGetTodosQuery } from "../../redux/api/api";
+import { useGetTodosQuery } from "../../redux/api/api";
 import { TTodo } from "../../redux/features/todoSlice";
 import AddTodoModal from "./AddTodoModal";
 import TodoCard from "./TodoCard";
@@ -10,8 +10,7 @@ const TodoContainer: React.FC = () => {
   // const { todos } = useAppSelector((state) => state.todos);
 
   // from server state
-  const { isLoading, data: todos }: UseGetTodosQuery =
-    useGetTodosQuery(undefined);
+  const { isLoading, data: todos } = useGetTodosQuery(undefined);
 
   if (isLoading) {
     return <progress className="progress w-56"></progress>;
