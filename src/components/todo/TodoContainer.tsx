@@ -1,14 +1,21 @@
-import { useGetTodosQuery } from "../../redux/api/api";
+import React from "react";
+import { UseGetTodosQuery, useGetTodosQuery } from "../../redux/api/api";
 import { TTodo } from "../../redux/features/todoSlice";
-import { useAppSelector } from "../../redux/hook";
 import AddTodoModal from "./AddTodoModal";
 import TodoCard from "./TodoCard";
 import TodoFilter from "./TodoFilter";
 
-const TodoContainer = () => {
-  const { todos } = useAppSelector((state) => state.todos);
+const TodoContainer: React.FC = () => {
+  // from local state
+  // const { todos } = useAppSelector((state) => state.todos);
 
-  const { data } = useGetTodosQuery(undefined);
+  // from server state
+  const { isLoading, data: todos }: UseGetTodosQuery =
+    useGetTodosQuery(undefined);
+
+  if (isLoading) {
+    return <progress className="progress w-56"></progress>;
+  }
 
   return (
     <div>
@@ -18,8 +25,8 @@ const TodoContainer = () => {
       </div>
       <div className="bg-primary-gradient w-full h-full rounded-xl p-[5px]">
         <div className="bg-white p-5 rounded-lg space-y-3  ">
-          {todos?.length ? (
-            todos?.map((todo: TTodo) => (
+          {todos?.todos?.length ? (
+            todos?.todos?.map((todo: TTodo) => (
               <TodoCard key={todo?.id} {...todo}></TodoCard>
             ))
           ) : (
