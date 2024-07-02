@@ -1,8 +1,6 @@
 import { Button } from "../ui/button";
 import { editIcon, trashIcon } from "../../utils/svgIcons";
-import { useAppDispatch } from "../../redux/hook";
-import { toggleComplete } from "../../redux/features/todoSlice";
-import { useDeleteTodoMutation } from "@/redux/api/api";
+import { useDeleteTodoMutation, useUpdateTodoMutation } from "@/redux/api/api";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 
@@ -22,10 +20,24 @@ const TodoCard = ({
   priority,
 }: TTodoCardProps) => {
   // for local state
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
+
+  const [updateTodo] = useUpdateTodoMutation();
 
   const toggleState = () => {
-    dispatch(toggleComplete(_id));
+    const options = {
+      id: _id,
+      data: {
+        title,
+        description,
+        isCompleted: !isCompleted,
+        priority,
+      },
+    };
+
+    updateTodo(options);
+
+    // dispatch(toggleComplete(_id));
   };
 
   // for remove todo from server
@@ -45,6 +57,7 @@ const TodoCard = ({
         type="checkbox"
         name="completed"
         id="completed"
+        defaultChecked={isCompleted}
       />
       {/* title */}
       <p className="font-semibold flex-1">{title}</p>
