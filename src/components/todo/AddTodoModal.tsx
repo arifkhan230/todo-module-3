@@ -10,7 +10,7 @@ import {
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useAddTodoMutation } from "@/redux/api/api";
 import {
   Select,
@@ -21,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import toast from "react-hot-toast";
 
 const AddTodoModal = () => {
   const [task, setTask] = useState("");
@@ -31,16 +32,14 @@ const AddTodoModal = () => {
   // const dispatch = useAppDispatch();
 
   // for server
-  const [addTodo, { data, isLoading, isError, isSuccess }] =
-    useAddTodoMutation();
+  const [addTodo, { data, isSuccess }] = useAddTodoMutation();
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const randomString = Math.random().toString(36).substring(2, 7);
 
     const taskDetails = {
-      id: randomString,
       title: task,
+      isCompleted: false,
       priority,
       description,
     };
@@ -51,6 +50,13 @@ const AddTodoModal = () => {
     // for server
     addTodo(taskDetails);
   };
+
+  // showing toast after adding a todo
+  useEffect(() => {
+    if (isSuccess && data?.insertedId) {
+      toast.success("Todo Added Successfully");
+    }
+  }, [isSuccess, data]);
 
   return (
     <Dialog>

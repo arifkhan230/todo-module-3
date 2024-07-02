@@ -10,7 +10,9 @@ const TodoContainer: React.FC = () => {
   // const { todos } = useAppSelector((state) => state.todos);
 
   // from server state
-  const { isLoading, data: todos } = useGetTodosQuery(undefined);
+  const { isLoading, data: todos } = useGetTodosQuery(undefined, {
+    pollingInterval: 30000,
+  });
 
   if (isLoading) {
     return <progress className="progress w-56"></progress>;
@@ -26,7 +28,7 @@ const TodoContainer: React.FC = () => {
         <div className="bg-white p-5 rounded-lg space-y-3  ">
           {todos?.todos?.length ? (
             todos?.todos?.map((todo: TTodo) => (
-              <TodoCard key={todo?.id} {...todo}></TodoCard>
+              <TodoCard key={todo?._id} {...todo}></TodoCard>
             ))
           ) : (
             <div className="bg-white text-2xl font-bold flex justify-center items-center rounded-md p-5">

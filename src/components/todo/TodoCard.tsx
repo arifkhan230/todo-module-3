@@ -4,7 +4,7 @@ import { useAppDispatch } from "../../redux/hook";
 import { removeTodo, toggleComplete } from "../../redux/features/todoSlice";
 
 type TTodoCardProps = {
-  id: string;
+  _id?: string;
   title: string;
   description: string;
   isCompleted?: boolean;
@@ -12,7 +12,7 @@ type TTodoCardProps = {
 };
 
 const TodoCard = ({
-  id,
+  _id = "",
   title,
   description,
   isCompleted,
@@ -21,7 +21,7 @@ const TodoCard = ({
   const dispatch = useAppDispatch();
 
   const toggleState = () => {
-    dispatch(toggleComplete(id));
+    dispatch(toggleComplete(_id));
   };
 
   return (
@@ -60,7 +60,7 @@ const TodoCard = ({
       <div className="space-x-5">
         <Button className="bg-[#5C53FE] ">{editIcon}</Button>
         <Button
-          onClick={() => dispatch(removeTodo(id))}
+          onClick={() => dispatch(removeTodo(_id))}
           className="bg-[#DC02C3]"
         >
           {trashIcon}
