@@ -11,25 +11,45 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { FormEvent, useState } from "react";
-import { useAppDispatch } from "../../redux/hook";
-import { addTodo } from "../../redux/features/todoSlice";
+import { useAddTodoMutation } from "@/redux/api/api";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const AddTodoModal = () => {
   const [task, setTask] = useState("");
+  const [priority, setPriority] = useState("");
   const [description, setDescription] = useState("");
-  const dispatch = useAppDispatch();
+
+  // for local state management
+  // const dispatch = useAppDispatch();
+
+  // for server
+  const [addTodo, { data, isLoading, isError, isSuccess }] =
+    useAddTodoMutation();
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-
     const randomString = Math.random().toString(36).substring(2, 7);
 
     const taskDetails = {
       id: randomString,
       title: task,
+      priority,
       description,
     };
-    dispatch(addTodo(taskDetails));
+
+    // for local state management
+    // dispatch(addTodo(taskDetails));
+
+    // for server
+    addTodo(taskDetails);
   };
 
   return (
@@ -59,6 +79,22 @@ const AddTodoModal = () => {
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
+              <Select onValueChange={(value) => setPriority(value)}>
+                <Label className="text-right">Priority</Label>
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="Select Priority" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Priority</SelectLabel>
+                    <SelectItem value="high">High</SelectItem>
+                    <SelectItem value="medium">Medium</SelectItem>
+                    <SelectItem value="low">Low</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="description" className="text-right">
                 Description
               </Label>
@@ -72,7 +108,7 @@ const AddTodoModal = () => {
 
           <div className="flex justify-end">
             <DialogClose asChild>
-              <Button type="submit">Save changes</Button>
+              <Button type="submit">Add Todo</Button>
             </DialogClose>
           </div>
         </form>

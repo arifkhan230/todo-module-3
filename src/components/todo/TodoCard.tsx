@@ -25,7 +25,7 @@ const TodoCard = ({
   };
 
   return (
-    <div className="flex justify-between items-center bg-white p-4 border rounded">
+    <div className="flex justify-between items-center gap-6 bg-white p-4 border rounded">
       <input
         onChange={toggleState}
         className="mr-4"
@@ -36,10 +36,12 @@ const TodoCard = ({
       {/* title */}
       <p className="font-semibold flex-1">{title}</p>
       {/* priority */}
-      <div className="flex-1 flex items-center gap-2 justify-center">
+      <div className="flex-1 flex items-center gap-2 jc">
         <div
           className={`size-3 rounded-full ${
-            priority === "High" && "bg-red-500"
+            priority === "high" && "bg-red-500"
+          } ${priority === "medium" && "bg-yellow-500"} ${
+            priority === "low" && "bg-green-500"
           }`}
         ></div>
         <p>{priority}</p>
